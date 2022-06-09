@@ -29,7 +29,7 @@ class _SplashState extends State<Splash> {
     return Scaffold(
       body: Column(
         children: [
-          Padding(padding: EdgeInsets.all(50)),
+          Padding(padding: EdgeInsets.all(70)),
           Container(
             padding: EdgeInsets.all(30),
             child: Lottie.asset("assets/plant.json"),
