@@ -1,9 +1,11 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:plantapp/screens.dart/required.dart';
 import 'package:plantapp/screens.dart/screentwo.dart';
+import 'package:plantapp/screens.dart/toggle.dart';
 import 'package:video_player/video_player.dart';
 
 class order extends StatefulWidget {
@@ -25,9 +27,9 @@ class _orderState extends State<order> {
   VideoPlayerController? _controller;
   Future<void>? _initializeVideoPlayerFuture;
   void initState() {
-    _controller = VideoPlayerController.network(
-        "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4");
-    //_controller = VideoPlayerController.asset("videos/sample_video.mp4");
+    _controller = VideoPlayerController.asset("assets/plantvedio.mp4");
+    //_controller = VideoPlayerController.network(
+    //  "assets/plantvedio2.mp4");
     _initializeVideoPlayerFuture = _controller!.initialize();
     _controller!.setLooping(true);
     _controller!.setVolume(1.0);
@@ -114,58 +116,89 @@ class _orderState extends State<order> {
                       ],
                       color: Colors.white,
                     ),
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      // padding: EdgeInsets.all(20),
-                      children: [
-                        Container(
-                          // height: MediaQuery.of(context).size.height * 0.50,
-                          // width: MediaQuery.of(context).size.width * 0.50,
-                          color: Colors.white,
-                          child: Image.asset(
-                            widget.image!,
-                            fit: BoxFit.scaleDown,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                          // height: MediaQuery.of(context).size.height * 0.50,
-                          // width: MediaQuery.of(context).size.width * 0.5,
-                          color: Colors.blue,
-                          child: InkWell(
-                            child: FutureBuilder(
-                              future: _initializeVideoPlayerFuture,
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.done) {
-                                  return Center(
-                                    child: AspectRatio(
-                                      aspectRatio: 1 / 1,
-                                      // _controller!.value.aspectRatio,
-                                      child: VideoPlayer(_controller!),
+                    child: Container(
+                      height: 200,
+                      width: 200,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        // padding: EdgeInsets.all(20),
+                        children: [
+                          Container(
+                            // height: 100,
+                            width: 200,
+                            child: CarouselSlider(
+                              items: [
+                                Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.50,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.5,
+                                  color: Colors.blue,
+                                  child: Image.asset(
+                                    widget.image!,
+                                    fit: BoxFit.scaleDown,
+                                  ),
+                                ),
+                                // SizedBox(
+                                // width: 10,
+                                // ),
+                                Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.50,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.5,
+                                  color: Colors.blue,
+                                  child: InkWell(
+                                    child: FutureBuilder(
+                                      future: _initializeVideoPlayerFuture,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.done) {
+                                          return Center(
+                                            child: AspectRatio(
+                                              aspectRatio: 1 / 1,
+                                              // _controller!.value.aspectRatio,
+                                              child: VideoPlayer(_controller!),
+                                            ),
+                                          );
+                                        } else {
+                                          return Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        }
+                                      },
                                     ),
-                                  );
-                                } else {
-                                  return Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                }
-                              },
+                                    onTap: () {
+                                      setState(() {
+                                        if (_controller!.value.isPlaying) {
+                                          _controller!.pause();
+                                        } else {
+                                          _controller!.play();
+                                        }
+                                      });
+                                    },
+                                  ),
+                                )
+                              ],
+                              //    options: CarouselOptions(),
+                              //   options: CarouselOptions(
+
+                              // autoPlay: false),
+                              options: CarouselOptions(
+                                height: 180.0,
+                                enlargeCenterPage: true,
+                                autoPlay: true,
+                                aspectRatio: 16 / 9,
+                                autoPlayCurve: Curves.fastOutSlowIn,
+                                enableInfiniteScroll: true,
+                                autoPlayAnimationDuration:
+                                    Duration(milliseconds: 800),
+                                viewportFraction: 0.8,
+                              ),
                             ),
-                            onTap: () {
-                              setState(() {
-                                if (_controller!.value.isPlaying) {
-                                  _controller!.pause();
-                                } else {
-                                  _controller!.play();
-                                }
-                              });
-                            },
                           ),
-                        )
-                      ],
+                        ],
+                      ),
                     )
                     // child: Image.asset(
                     //   widget.image!,
@@ -216,7 +249,12 @@ class _orderState extends State<order> {
                             padding: EdgeInsets.all(
                                 20) //content padding inside button
                             ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const toggle()));
+                        },
                         child: Text("Buy Now")),
                   )
                 ],

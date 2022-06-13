@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:lottie/lottie.dart';
+import 'package:plantapp/screens.dart/login.dart';
 import 'package:plantapp/screens.dart/screenone.dart';
 
 class Splash extends StatefulWidget {
@@ -19,8 +20,8 @@ class _SplashState extends State<Splash> {
 
   _navigatetoscreen1() async {
     await Future.delayed(const Duration(milliseconds: 4500), () {
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: ((context) => const Screenone())));
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: ((context) => const Screenone())));
     });
   }
 
